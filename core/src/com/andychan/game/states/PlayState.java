@@ -6,6 +6,7 @@ import com.andychan.game.sprites.Bird;
 import com.andychan.game.sprites.Tube;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
@@ -26,6 +27,7 @@ public class PlayState extends State {
     private Vector2 groundPos1, groundPos2;
 
     private Hud hud;
+    private BitmapFont shadow;
 
     private Array<Tube> tubes;
 
@@ -70,7 +72,7 @@ public class PlayState extends State {
             }
 
             if(tube.collides(bird.getBounds())) {
-                gsm.set(new PlayState(gsm));
+                gsm.set(new GameOverState(gsm, hud.getScore()));
             }
 
             if(isCounted(tube)){
@@ -82,7 +84,7 @@ public class PlayState extends State {
 
 
         if(bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
-            gsm.set(new PlayState(gsm));
+            gsm.set(new GameOverState(gsm, hud.getScore()));
 
         cam.update();
 
@@ -106,6 +108,7 @@ public class PlayState extends State {
 
         sb.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+
     }
 
     @Override
@@ -114,13 +117,14 @@ public class PlayState extends State {
         bird.dispose();
         ground.dispose();
         hud.dispose();
+
         for(Tube tube : tubes){
             tube.dispose();
         }
     }
 
     public Boolean isCounted(Tube tube){
-        if(!tube.getIsScored() && (tube.getPosTopTube().x + tube.getTopTube().getWidth() / 2 + TUBE_SPACING < bird.getPosition().x + bird.getWidth())){
+        if(!tube.getIsScored() && (tube.getPosTopTube().x + tube.getTopTube().getWidth() / 2 + TUBE_SPACING - 20 < bird.getPosition().x + bird.getWidth())){
            return true;
         }
         else { return false;}

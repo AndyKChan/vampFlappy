@@ -1,6 +1,7 @@
 package com.andychan.game.Scenes;
 
 import com.andychan.game.FlappyDemo;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,7 +21,9 @@ public class Hud {
     private Viewport viewport;
 
     private static Integer score;
+    private BitmapFont shadow;
 
+    Label shadowLabel;
     Label scoreLabel;
 
     public Hud(SpriteBatch sb){
@@ -33,8 +36,10 @@ public class Hud {
         table.top();
         table.setFillParent(true);
 
-        scoreLabel = new Label(String.format("%03d", score), new Label.LabelStyle(new BitmapFont(), Color.RED));
-        scoreLabel.setScale(3);
+        scoreLabel = new Label(score.toString(), new Label.LabelStyle(new BitmapFont(Gdx.files.internal("text.fnt.txt")), Color.RED));
+
+        shadowLabel = new Label(score.toString(), new Label.LabelStyle(new BitmapFont(Gdx.files.internal("shadow.fnt.txt")), Color.BLACK));
+
 
         table.add(scoreLabel).expandX();
 
@@ -43,7 +48,11 @@ public class Hud {
     }
     public void addScore(int value){
             score += value;
-            scoreLabel.setText(String.format("%06d", score));
+            scoreLabel.setText(score.toString());
+    }
+
+    public String getScore(){
+        return score.toString();
     }
 
     public void dispose(){
