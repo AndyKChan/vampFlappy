@@ -22,7 +22,7 @@ public class FlappyDemo extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("Frantic-Gameplay.mp3"));
 		music.setLooping(true);
 		music.setVolume(0.1f);
 		music.play();
@@ -42,6 +42,7 @@ public class FlappyDemo extends ApplicationAdapter {
 		super.dispose();
 		music.dispose();
 	}
+
 
 	public static SpriteBatch getBatch(){
 		return batch;

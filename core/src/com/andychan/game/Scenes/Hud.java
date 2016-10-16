@@ -51,8 +51,8 @@ public class Hud {
             scoreLabel.setText(score.toString());
     }
 
-    public String getScore(){
-        return score.toString();
+    public int getScore(){
+        return score;
     }
 
     public void dispose(){

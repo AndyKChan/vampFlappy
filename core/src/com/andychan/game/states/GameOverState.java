@@ -2,6 +2,7 @@ package com.andychan.game.states;
 
 import com.andychan.game.FlappyDemo;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,9 +15,9 @@ public class GameOverState extends State{
 
     Texture bg, playbtn, gameover;
     BitmapFont font, scoreText;
-    String score;
+    Integer score;
 
-    public GameOverState(GameStateManager gsm, String score) {
+    public GameOverState(GameStateManager gsm, Integer score) {
         super(gsm);
         cam.setToOrtho(false, FlappyDemo.WIDTH / 2, FlappyDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
@@ -24,6 +25,7 @@ public class GameOverState extends State{
         gameover = new Texture("gameover.png");
         font = new BitmapFont(Gdx.files.internal("text.fnt.txt"));
         scoreText = new BitmapFont(Gdx.files.internal("text.fnt.txt"));
+        scoreText.setColor(Color.YELLOW);
         this.score = score;
     }
 
@@ -46,7 +48,9 @@ public class GameOverState extends State{
         sb.draw(bg , 0 ,0);
         sb.draw(playbtn, cam.position.x - playbtn.getWidth() / 2, cam.position.y / 2);
         font.getData().setScale(.2f, .2f);
-        font.draw(sb, "Your Score was: " + score + "!", cam.position.x / 2, cam.position.y - 15);
+        font.draw(sb, "Your Score was: " + score.toString() + "!", cam.position.x / 2, cam.position.y - 25);
+        scoreText.getData().setScale(.2f, .2f);
+        scoreText.draw(sb, "Highscore: " + PlayState.prefs.getInteger("highScore") + "!", cam.position.x / 2, cam.position.y - 5);
         sb.draw(gameover, cam.position.x - gameover.getWidth() / 2, cam.position.y);
         sb.end();
 
@@ -55,6 +59,8 @@ public class GameOverState extends State{
 
     @Override
     public void dispose() {
-
+        bg.dispose();
+        playbtn.dispose();
+        gameover.dispose();
     }
 }

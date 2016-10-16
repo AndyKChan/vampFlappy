@@ -5,6 +5,7 @@ import com.andychan.game.Scenes.Hud;
 import com.andychan.game.sprites.Bird;
 import com.andychan.game.sprites.Tube;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,6 +31,7 @@ public class PlayState extends State {
     private BitmapFont shadow;
 
     private Array<Tube> tubes;
+    public static Preferences prefs;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
@@ -41,6 +43,12 @@ public class PlayState extends State {
         groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth() , GROUND_Y_OFFSET);
 
         hud = new Hud(FlappyDemo.getBatch());
+
+        prefs = Gdx.app.getPreferences("VampFlappy");
+
+        if(!prefs.contains("highScore")){
+            prefs.putInteger("highScore", 0);
+        }
 
         tubes = new Array<Tube>();
 
@@ -72,6 +80,9 @@ public class PlayState extends State {
             }
 
             if(tube.collides(bird.getBounds())) {
+                if(hud.getScore() > getHighScore()){
+                    setHighScore(hud.getScore());
+                }
                 gsm.set(new GameOverState(gsm, hud.getScore()));
             }
 
@@ -83,8 +94,12 @@ public class PlayState extends State {
 
 
 
-        if(bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
+        if(bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET) {
+            if (hud.getScore() > getHighScore()) {
+                setHighScore(hud.getScore());
+            }
             gsm.set(new GameOverState(gsm, hud.getScore()));
+        }
 
         cam.update();
 
@@ -137,5 +152,14 @@ public class PlayState extends State {
         if(cam.position.x - (cam.viewportWidth / 2) > groundPos2.x + ground.getWidth()){
             groundPos2.add(ground.getWidth() * 2, 0);
         }
+    }
+
+    public static void setHighScore(int highScore){
+        prefs.putInteger("highScore", highScore);
+        prefs.flush();
+    }
+
+    public static int getHighScore(){
+        return prefs.getInteger("highScore");
     }
 }
