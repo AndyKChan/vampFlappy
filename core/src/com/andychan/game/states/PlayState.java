@@ -1,13 +1,14 @@
 package com.andychan.game.states;
 
 import com.andychan.game.FlappyDemo;
+
 import com.andychan.game.Scenes.Hud;
 import com.andychan.game.sprites.Bird;
 import com.andychan.game.sprites.Tube;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
@@ -28,21 +29,25 @@ public class PlayState extends State {
     private Vector2 groundPos1, groundPos2;
 
     private Hud hud;
-    private BitmapFont shadow;
+    private String spriteChosen;
 
     private Array<Tube> tubes;
     public static Preferences prefs;
 
-    public PlayState(GameStateManager gsm) {
+
+
+    public PlayState(GameStateManager gsm, String sprite) {
         super(gsm);
-        bird = new Bird(50, 300);
+        spriteChosen = sprite;
+        bird = new Bird(50, 300, sprite);
         cam.setToOrtho(false, FlappyDemo.WIDTH / 2, FlappyDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         ground = new Texture("ground.png");
         groundPos1 = new Vector2(cam.position.x - cam.viewportWidth / 2, GROUND_Y_OFFSET);
-        groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth() , GROUND_Y_OFFSET);
+        groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
 
         hud = new Hud(FlappyDemo.getBatch());
+//        button = new Button(FlappyDemo.getBatch());
 
         prefs = Gdx.app.getPreferences("VampFlappy");
 
@@ -83,7 +88,7 @@ public class PlayState extends State {
                 if(hud.getScore() > getHighScore()){
                     setHighScore(hud.getScore());
                 }
-                gsm.set(new GameOverState(gsm, hud.getScore()));
+                gsm.set(new GameOverState(gsm, hud.getScore(), spriteChosen));
             }
 
             if(isCounted(tube)){
@@ -98,7 +103,7 @@ public class PlayState extends State {
             if (hud.getScore() > getHighScore()) {
                 setHighScore(hud.getScore());
             }
-            gsm.set(new GameOverState(gsm, hud.getScore()));
+            gsm.set(new GameOverState(gsm, hud.getScore(), spriteChosen));
         }
 
         cam.update();
@@ -147,10 +152,10 @@ public class PlayState extends State {
 
     private void updateGround(){
         if(cam.position.x - (cam.viewportWidth / 2) > groundPos1.x + ground.getWidth()){
-            groundPos1.add(ground.getWidth() * 2, 0);
+            groundPos1.add(ground.getWidth() * 2 - 10, 0);
         }
         if(cam.position.x - (cam.viewportWidth / 2) > groundPos2.x + ground.getWidth()){
-            groundPos2.add(ground.getWidth() * 2, 0);
+            groundPos2.add(ground.getWidth() * 2 - 10, 0);
         }
     }
 

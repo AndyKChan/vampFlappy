@@ -21,7 +21,6 @@ public class Hud {
     private Viewport viewport;
 
     private static Integer score;
-    private BitmapFont shadow;
 
     Label shadowLabel;
     Label scoreLabel;
