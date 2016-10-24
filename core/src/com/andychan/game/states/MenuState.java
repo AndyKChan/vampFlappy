@@ -24,16 +24,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MenuState extends State {
 
-    private Texture background, playBtn, dragonite, charizard, pidgeoto;
+    private Texture background;
     private TextButton flappyButton, dragoniteButton, charizardButton, pidgeotoButton;
 
     public Stage stage; //** stage holds the Button **//
 
-    private TextureAtlas buttonsAtlas; //** image of buttons **//
-    private Skin buttonSkin; //** images are used as skins of the button **//
+    private TextureAtlas buttonsAtlas, playBtnAtlas; //** image of buttons **//
+    private Skin buttonSkin, playBtnSkin; //** images are used as skins of the button **//
 
     private Viewport viewport;
-    private TextButton.TextButtonStyle style;
+    private TextButton.TextButtonStyle flappyStyle, dragoniteStyle, charizardStyle, pidgeotoStyle;
 
     Vector3 touchPos;
     BitmapFont font;
@@ -44,41 +44,60 @@ public class MenuState extends State {
         super(gsm);
         cam.setToOrtho(false, FlappyDemo.WIDTH/2, FlappyDemo.HEIGHT/2);
         background = new Texture("bg.png");
-        dragonite = new Texture("dragonite1.png");
-        charizard = new Texture("charizard.png");
-        pidgeoto = new Texture("pidgeoto1.png");
 
         touchPos = new Vector3();
 
-        playBtn = new Texture("playbtn.png");
-        buttonsAtlas = new TextureAtlas("button.pack"); //** button atlas image **//
+        buttonsAtlas = new TextureAtlas("spriteChoice.pack"); //** button atlas image **//
         buttonSkin = new Skin();
         buttonSkin.addRegions(buttonsAtlas); //** skins for on and off **//
         font = new BitmapFont(Gdx.files.internal("text.fnt.txt"),false); //** font **//
 
         viewport = new FitViewport(FlappyDemo.WIDTH, FlappyDemo.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);       //** window is stage **//
-        style = new TextButton.TextButtonStyle(); //** Button properties **//
-        style.up = buttonSkin.getDrawable("button");
-        style.over = buttonSkin.getDrawable("buttonPressed");
-        style.down = buttonSkin.getDrawable("buttonPressed");
-        style.font = font;
 
-        flappyButton = new TextButton("f", style);
+        playBtnAtlas = new TextureAtlas("playbutton.pack"); //** button atlas image **//
+        playBtnSkin = new Skin();
+        playBtnSkin.addRegions(playBtnAtlas); //** skins for on and off **//
+
+        flappyStyle = new TextButton.TextButtonStyle(); //** Button properties **//
+        flappyStyle.up = playBtnSkin.getDrawable("playbtn");
+        flappyStyle.over = playBtnSkin.getDrawable("playbtnFlipped");
+        flappyStyle.down = playBtnSkin.getDrawable("playbtnFlipped");
+        flappyStyle.font = font;
+
+        flappyButton = new TextButton("", flappyStyle);
         stage.addActor(flappyButton);
-        flappyButton.setBounds(50,50,50,50);
+        flappyButton.setBounds((cam.position.x * 2 - playBtnSkin.getDrawable("playbtn").getMinWidth()), cam.position.y * 2, 200 , 110);
 
-        dragoniteButton = new TextButton("d", style);
+        dragoniteStyle = new TextButton.TextButtonStyle();
+        dragoniteStyle.up = buttonSkin.getDrawable("dragonite");
+        dragoniteStyle.over = buttonSkin.getDrawable("dragonite");
+        dragoniteStyle.down = buttonSkin.getDrawable("dragonite");
+        dragoniteStyle.font = font;
+
+        dragoniteButton = new TextButton("", dragoniteStyle);
         stage.addActor(dragoniteButton);
-        dragoniteButton.setBounds(100,50,50,50);
+        dragoniteButton.setBounds(cam.position.x * 2 - 200, cam.position.y * 2 - 200,90,90);
 
-        charizardButton = new TextButton("c", style);
+        charizardStyle = new TextButton.TextButtonStyle();
+        charizardStyle.up = buttonSkin.getDrawable("charizard");
+        charizardStyle.over = buttonSkin.getDrawable("charizard");
+        charizardStyle.down = buttonSkin.getDrawable("charizard");
+        charizardStyle.font = font;
+
+        charizardButton = new TextButton("", charizardStyle);
         stage.addActor(charizardButton);
-        charizardButton.setBounds(150,50,50,50);
+        charizardButton.setBounds((cam.position.x * 2) - buttonSkin.getDrawable("charizard").getMinWidth() / 2 - 10, (cam.position.y * 2) - 200, 90,90);
 
-        pidgeotoButton = new TextButton("p", style);
+        pidgeotoStyle = new TextButton.TextButtonStyle();
+        pidgeotoStyle.up = buttonSkin.getDrawable("pidgeoto");
+        pidgeotoStyle.over = buttonSkin.getDrawable("pidgeoto");
+        pidgeotoStyle.down = buttonSkin.getDrawable("pidgeoto");
+        pidgeotoStyle.font = font;
+
+        pidgeotoButton = new TextButton("", pidgeotoStyle);
         stage.addActor(pidgeotoButton);
-        pidgeotoButton.setBounds(200,50,50,50);
+        pidgeotoButton.setBounds(cam.position.x * 2 + 120, cam.position.y * 2 - 200, 90 , 90);
 
         gsm1 = gsm;
         Gdx.input.setInputProcessor(stage); //** stage is responsive **//
@@ -118,42 +137,6 @@ public class MenuState extends State {
 
     @Override
     public void handleInput() {
-//        if(Gdx.input.justTouched()){
-//
-//
-//
-//            touchPos.set((FlappyDemo.WIDTH - Gdx.input.getX())/2, (FlappyDemo.HEIGHT -  Gdx.input.getY())/2, 0);
-//
-//            //flappy bird chosen
-//            if(touchPos.x > cam.position.x * 2 - playBtn.getWidth() / 2 && touchPos.x < cam.position.x * 2 + playBtn.getWidth() / 2){
-//                if(touchPos.y > cam.position.y * 2 - playBtn.getHeight() / 2 && touchPos.y < cam.position.y * 2+ playBtn.getHeight()){
-//                    gsm.set(new PlayState(gsm, spriteChosen));
-//                }
-//            }
-//
-//            //dragonite chosen
-//            if(touchPos.x > cam.position.x - (100 + dragonite.getWidth() / 2) && touchPos.x < cam.position.x - (100 - dragonite.getWidth() / 2)){
-//                if(touchPos.y > cam.position.y - 100 - dragonite.getHeight() / 2 && touchPos.y < cam.position.y - 100 + dragonite.getHeight()){
-//                    spriteChosen = "pidgeoto.png";
-//                    gsm.set(new PlayState(gsm, spriteChosen));
-//                }
-//            }
-//            //charizard chosen
-//            if(touchPos.x > cam.position.x - (30 + charizard.getWidth()/ 2) && touchPos.x < cam.position.x - (30 - charizard.getWidth() / 2)){
-//                if(touchPos.y > cam.position.y - 100 - charizard.getHeight() / 2 && touchPos.y < cam.position.y - 100 + charizard.getHeight()){
-//                    spriteChosen = "charizardanimation.png";
-//                    gsm.set(new PlayState(gsm, spriteChosen));
-//                }
-//            }
-//            //pidgeoto chosen
-//            if(touchPos.x > cam.position.x + (60 - pidgeoto.getWidth()/2) && touchPos.x < cam.position.x + 60 + pidgeoto.getWidth()/2){
-//                if(touchPos.y > cam.position.y - 100 - pidgeoto.getHeight() / 2 && touchPos.y < cam.position.y - 100 + pidgeoto.getHeight()){
-//                    spriteChosen = "dragonite.png";
-//                    gsm.set(new PlayState(gsm, spriteChosen));
-//                }
-//            }
-//
-//        }
     }
 
     @Override
@@ -166,15 +149,10 @@ public class MenuState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0 , 0);
-        sb.draw(playBtn, cam.position.x - playBtn.getWidth() / 2, cam.position.y);
         font.getData().setScale(.2f, .2f);
         font.setColor(Color.CYAN);
         font.draw(sb, "Choose Your Character!", (cam.position.x - 45) / 2, cam.position.y - 25);
-        sb.draw(dragonite, cam.position.x - 100, cam.position.y - 100);
-        sb.draw(charizard, cam.position.x - 30, cam.position.y - 100);
-        sb.draw(pidgeoto, cam.position.x + 60, cam.position.y - 100);
         sb.end();
-
 
         flappyButton.getStage().draw();
         dragoniteButton.getStage().draw();
@@ -185,12 +163,10 @@ public class MenuState extends State {
     @Override
     public void dispose() {
         background.dispose();
-        playBtn.dispose();
-        dragonite.dispose();
-        charizard.dispose();
-        pidgeoto.dispose();
         buttonSkin.dispose();
         buttonsAtlas.dispose();
+        playBtnSkin.dispose();
+        playBtnAtlas.dispose();
         font.dispose();
         stage.dispose();
     }

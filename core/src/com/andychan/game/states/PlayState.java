@@ -47,7 +47,6 @@ public class PlayState extends State {
         groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
 
         hud = new Hud(FlappyDemo.getBatch());
-//        button = new Button(FlappyDemo.getBatch());
 
         prefs = Gdx.app.getPreferences("VampFlappy");
 

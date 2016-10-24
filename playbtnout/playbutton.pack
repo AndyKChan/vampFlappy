@@ -1,0 +1,26 @@
+
+playbutton.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+charizard
+  rotate: false
+  xy: 1, 1
+  size: 65, 42
+  orig: 65, 42
+  offset: 0, 0
+  index: -1
+dragonite
+  rotate: false
+  xy: 68, 4
+  size: 51, 39
+  orig: 51, 39
+  offset: 0, 0
+  index: -1
+pidgeoto
+  rotate: false
+  xy: 121, 5
+  size: 42, 38
+  orig: 42, 38
+  offset: 0, 0
+  index: -1
