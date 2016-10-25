@@ -89,6 +89,7 @@ public class PlayState extends State {
                 if(hud.getScore() > getHighScore()){
                     setHighScore(hud.getScore());
                 }
+                firstTouch = false;
                 gsm.set(new GameOverState(gsm, hud.getScore(), spriteChosen));
             }
 
@@ -104,6 +105,7 @@ public class PlayState extends State {
             if (hud.getScore() > getHighScore()) {
                 setHighScore(hud.getScore());
             }
+            firstTouch = false;
             gsm.set(new GameOverState(gsm, hud.getScore(), spriteChosen));
         }
 
