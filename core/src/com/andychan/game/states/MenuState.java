@@ -25,19 +25,17 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class MenuState extends State {
 
     private Texture background;
-    private TextButton flappyButton, dragoniteButton, charizardButton, pidgeotoButton;
-
-    public Stage stage; //** stage holds the Button **//
-
-    private TextureAtlas buttonsAtlas, playBtnAtlas; //** image of buttons **//
-    private Skin buttonSkin, playBtnSkin; //** images are used as skins of the button **//
 
     private Viewport viewport;
+
+    public Stage stage; //** stage holds the Button **//
+    private TextButton flappyButton, dragoniteButton, charizardButton, pidgeotoButton;
     private TextButton.TextButtonStyle flappyStyle, dragoniteStyle, charizardStyle, pidgeotoStyle;
+    private TextureAtlas buttonsAtlas, playBtnAtlas; //** image of buttons **//
+    private Skin buttonSkin, playBtnSkin; //** images are used as skins of the button **//
+    BitmapFont font;
 
     Vector3 touchPos;
-    BitmapFont font;
-    Boolean touchDown = false;
     GameStateManager gsm1;
 
     public MenuState(GameStateManager gsm, SpriteBatch sb) {
@@ -104,7 +102,6 @@ public class MenuState extends State {
         flappyButton.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 gsm1.set(new PlayState(gsm1, "birdanimation.png"));
-                touchDown = true;
                 return true;
             }
         });
@@ -112,7 +109,6 @@ public class MenuState extends State {
         dragoniteButton.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 gsm1.set(new PlayState(gsm1, "dragonite.png"));
-                touchDown = true;
                 return true;
             }
         });
@@ -120,7 +116,6 @@ public class MenuState extends State {
         charizardButton.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 gsm1.set(new PlayState(gsm1, "charizardanimation.png"));
-                touchDown = true;
                 return true;
             }
         });
@@ -128,7 +123,6 @@ public class MenuState extends State {
         pidgeotoButton.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 gsm1.set(new PlayState(gsm1, "pidgeoto.png"));
-                touchDown = true;
                 return true;
             }
         });

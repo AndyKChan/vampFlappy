@@ -34,12 +34,13 @@ public class PlayState extends State {
     private Array<Tube> tubes;
     public static Preferences prefs;
 
-
+    private Boolean firstTouch;
 
     public PlayState(GameStateManager gsm, String sprite) {
         super(gsm);
+        firstTouch = false;
         spriteChosen = sprite;
-        bird = new Bird(50, 300, sprite);
+        bird = new Bird(30, 300, sprite);
         cam.setToOrtho(false, FlappyDemo.WIDTH / 2, FlappyDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         ground = new Texture("ground.png");
@@ -64,9 +65,10 @@ public class PlayState extends State {
 
     @Override
     protected void handleInput() {
-        if(Gdx.input.justTouched()) {
+        if(Gdx.input.justTouched() && firstTouch) {
             bird.jump();
         }
+        firstTouch = true;
     }
 
     @Override
